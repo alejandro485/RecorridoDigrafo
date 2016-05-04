@@ -28,10 +28,15 @@ public class CanvasEntradaGrafo extends Canvas {
 	}
 	
 	@Override
+	public void update(Graphics g) {
+		paint(g);
+	}
+	
+	@Override
 	public void paint(Graphics g) {
 		imagen = createImage(this.getWidth(), this.getHeight());
 		graficas= imagen.getGraphics();
-		graficas.setColor(Color.orange);
+		graficas.setColor(Color.white);
 		graficas.fillRect(0, 0, this.getWidth(), this.getHeight());
 		if(lista!=null){
 			pintarLista();
@@ -40,16 +45,20 @@ public class CanvasEntradaGrafo extends Canvas {
 	}
 	
 	private void pintarLista(){
+		NodoGrafo ng,ay;
+		Nodo b;
 		for(int i=0; i<cantN; i++){
-			NodoGrafo ng=lista[i];
-			NodoGrafo ay;
-			Nodo b=ng.n;
+			ng=lista[i];
+			b=ng.n;
 			while(b!=null){
 				ay=lista[b.valor];
 				graficas.setColor(Color.black);
 				graficas.drawLine(ng.pocX, ng.pocY, ay.pocX, ay.pocY);
 				b=b.siguiente;
 			}
+		}
+		for(int i=0;i<cantN;i++){
+			ng=lista[i];
 			graficas.setColor(Color.white);
 			graficas.fillOval(ng.pocX-10, ng.pocY-10, 20, 20);
 			graficas.setColor(Color.black);

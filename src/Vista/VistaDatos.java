@@ -135,6 +135,7 @@ public class VistaDatos extends JFrame implements MouseListener, ActionListener 
 	private JCheckBox ch1010;
 
 	private CanvasEntradaGrafo canvasEntrada;
+	private CanvasRecorridos canvasRecorridos;
 	private Grafo grafo;
 	private JButton btnBorrar;
 	private JButton btnMatriz;
@@ -162,7 +163,7 @@ public class VistaDatos extends JFrame implements MouseListener, ActionListener 
 	 */
 	public VistaDatos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 886, 681);
+		setBounds(100, 100, 886, 781);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -247,6 +248,10 @@ public class VistaDatos extends JFrame implements MouseListener, ActionListener 
 		JLabel label_18 = new JLabel("10");
 		label_18.setBounds(530, 300, 18, 15);
 		contentPane.add(label_18);
+		
+		JLabel label_19 = new JLabel("Vertice de inicio");
+		label_19.setBounds(620, 360, 190, 20);
+		contentPane.add(label_19);
 
 		grafo = new Grafo();
 
@@ -255,6 +260,11 @@ public class VistaDatos extends JFrame implements MouseListener, ActionListener 
 		canvasEntrada.setVisible(true);
 		canvasEntrada.addMouseListener(this);
 		contentPane.add(canvasEntrada);
+		
+		canvasRecorridos = new CanvasRecorridos();
+		canvasRecorridos.setBounds(10, 390, 870, 380);
+		canvasRecorridos.setVisible(true);
+		contentPane.add(canvasRecorridos);
 
 		btnBorrar = new JButton("Limpiar");
 		btnBorrar.setBounds(540, 330, 100, 20);
@@ -280,6 +290,8 @@ public class VistaDatos extends JFrame implements MouseListener, ActionListener 
 
 		cargarCheckBox();
 		createComponentMap();
+		canvasEntrada.repaint();
+		canvasRecorridos.repaint();
 	}
 
 	private void limpiar() {
@@ -291,6 +303,7 @@ public class VistaDatos extends JFrame implements MouseListener, ActionListener 
 				((JCheckBox) getComponentByName("ch" + i + j)).setSelected(false);
 			}
 		}
+		canvasRecorridos.setCabezas(null, null);
 	}
 
 	private void habilitarMatriz() {
@@ -975,8 +988,10 @@ public class VistaDatos extends JFrame implements MouseListener, ActionListener 
 			habilitarMatriz();
 			break;
 		case "re":
-			AgregarAdyacentes();
-			grafo.recorridoAncho(Integer.parseInt(txtCabeza.getText())-1);
+			if(txtCabeza.getText().length()>0){
+				AgregarAdyacentes();
+				canvasRecorridos.setCabezas(grafo.recorridoAncho(Integer.parseInt(txtCabeza.getText())-1), grafo.recorridoProfundo(Integer.parseInt(txtCabeza.getText())-1));
+			}
 			break;
 		}
 	}
